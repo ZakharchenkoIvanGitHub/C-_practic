@@ -30,18 +30,6 @@ if (inputLine != "") // Проверка на ввод пустой строки
         {
             Console.WriteLine("Ошибка! Число должно быть больше 1");
         }
-
-        /*   
-          if (inputNumber % 2 == 0) // проверка на четность
-          {
-              Console.WriteLine("Число " + inputNumber + " четное");
-          }
-          else
-
-          {
-              Console.WriteLine("Число " + inputNumber + " не четное");
-          } */
-
     }
     else
     {
