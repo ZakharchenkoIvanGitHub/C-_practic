@@ -19,9 +19,8 @@ int check(string line)
 {
     int number = 0;
     if (
-        (line.Length == 3)// Проверка на длину символов
-        && 
         int.TryParse(line, out number)// переводим в число
+        &&((int)Math.Log10(number)+1==3) //проверяем на количество знаков
     ) 
     {
         return number;
