@@ -6,11 +6,11 @@
 
 //Получаем  число от пользователя
 //Передаем приветствие
-string? ReadData(string greeting = "Введите данные")
+string ReadData(string greeting = "Введите данные")
 {
     Console.WriteLine(greeting);
     Console.Write("Введите число: ");
-    return Console.ReadLine();
+    return Console.ReadLine()??"0";
 }
 
 //Проверяем на ввод трех символов и переводим в число
