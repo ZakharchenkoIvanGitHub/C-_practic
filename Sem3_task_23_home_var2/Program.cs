@@ -29,35 +29,70 @@ int[,] Calculate(int numberN, int pow)
     return intArray;
 }
 
-void PrintLine(int x)
+bool PrintLine(int x, int y)
 { //выводит разделительные линии
-    Console.SetCursorPosition(x, 0);
-    Console.Write("|");
-    Console.SetCursorPosition(x, 1);
-    Console.Write("|");
+    try
+    {
+        Console.SetCursorPosition(x, y);
+        Console.Write("|");
+        Console.SetCursorPosition(x, y + 1);
+        Console.Write("|");
+    }
+    catch
+    {
+        return true;
+    }
+    return false;
 }
 
 //Метод вывода результата из двумерного массива
 void PrintResult(int[,] intArray)
 {
     int x = 0;
+    int y = 0;
     Console.Clear();
-    PrintLine(x);
+    if (PrintLine(x, y))
+    {
+        x = 0;
+        y = y + 3;
+    }
 
     for (int i = 0; i < intArray.Length / 2; i++)
     {
-        Console.SetCursorPosition(x, 0);
+        try
+        {
+            Console.SetCursorPosition(x, y);
+        }
+        catch
+        {
+            x = 0;
+            y = y + 3;
+        }
         int lengthStrPow = intArray[1, i].ToString().Length; //вычисляем длину строки
         int lengthStr = intArray[0, i].ToString().Length; //вычисляем длину строки
 
-        Console.SetCursorPosition((x + 2 + ((lengthStrPow - lengthStr) / 2)), 0); //Выводим первую стоку
+        try
+        {
+            Console.SetCursorPosition((x + 2 + ((lengthStrPow - lengthStr) / 2)), y); //Выводим первую стоку
+        }
+        catch
+        {
+            x = 0;
+            y = y + 3;
+            Console.SetCursorPosition((x + 2 + ((lengthStrPow - lengthStr) / 2)), y);
+        }
+
         Console.Write(intArray[0, i].ToString());
 
-        Console.SetCursorPosition(x + 2, 1); //Выводим первую стоку
+        Console.SetCursorPosition(x + 2, y + 1); //Выводим первую стоку
         Console.Write(intArray[1, i].ToString());
 
         x = x + lengthStrPow + 3;
-        PrintLine(x);
+        if (PrintLine(x, y))
+        {
+            x = 0;
+            y = y + 3;
+        }
     }
 
     Console.WriteLine();

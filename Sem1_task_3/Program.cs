@@ -50,7 +50,7 @@ Console.WriteLine(outDayOfWeek);  */
 //Вариант3 
 // O-Воскресенье
 string outDayOfWeek = string.Empty;
-outDayOfWeek = System.Globalization.CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName((DayOfWeek)Enum.GetValues(typeof(DayOfWeek)).GetValue(inputDayOfWeek));
+//outDayOfWeek = System.Globalization.CultureInfo.GetCultureInfo("ru-RU").DateTimeFormat.GetDayName((DayOfWeek)Enum.GetValues(typeof(DayOfWeek)).GetValue(inputDayOfWeek));
 
 Console.WriteLine(outDayOfWeek); 
 }
