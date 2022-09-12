@@ -15,9 +15,9 @@ string ReadData(string greeting = "Введите данные")
 }
 
 //выводит строку на печать
-void PrintResult(int res, string[] strArrray)
+void PrintResult(double res, string[] strArrray)
 {
-    Console.WriteLine($"{strArrray[0]} {strArrray[1]} {strArrray[2]} = {res}");
+    Console.WriteLine($"{strArrray[0]} {strArrray[1]} {strArrray[2]} = {Math.Round(res,2)}");
 }
 
 // распарсивает строку в массив [число] [операция] [число]
@@ -68,43 +68,44 @@ string[] SubParser(string str, char oper)
 }
 
 //метод калькулятора
-int Calculate(string oper, int numA, int numB)
+double Calculate(string oper, double numA, double numB)
 {
+Console.WriteLine(numA+" "+numB);
+
     switch (oper)
     {
         case "+":
             return numA + numB;
-            break;
+            
 
         case "-":
             return numA - numB;
-            break;
+            
 
         case "*":
             return numA * numB;
-            break;
+          
 
         case "/":
             return numA / numB;
-            break;
+           
 
         case "^":
-            return (int)Math.Pow(numA, numB);
-            break;
-
+            return Math.Pow(numA, numB);
+           
         default:
             return 0;
-            break;
+           
     }
 }
 
 //Основная прогррамма
 string str = ReadData(
-    "Введите задание в формате <число> <операция> <число> \nнапример 5 + 9 или 5+9 и программа выдаст ответ. \nДоступные операции +, -, /, *,^"
+    "Введите задание в формате <число> <операция> <число> \nнапример 5 + 9 или 5,7*9,1 и программа выдаст ответ. \nДоступные операции +, -, /, *,^"
 );
 string[] strArrray = Parser(str);
 
-if (int.TryParse(strArrray[0], out int numA) && int.TryParse(strArrray[2], out int numB))
+if (double.TryParse(strArrray[0], out double numA) && double.TryParse(strArrray[2], out double numB))
 {
     PrintResult(Calculate(strArrray[1], numA, numB), strArrray);
 }
