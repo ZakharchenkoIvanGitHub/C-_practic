@@ -102,17 +102,23 @@ int[] InserSort(int[] array)
 //Сортировка методом подсчета
 int[] CountingSort(int[] array)
 {
-    int max = int.MinValue; //Определяем максимальное значение и создаем вспомогательный массив
+    int max = int.MinValue; //Определяем минимальное и максимальное значение и создаем вспомогательный массив
+    int min = int.MaxValue;
     foreach (int item in array)
     {
         if (item > max)
             max = item;
+        if (item < min)
+            min= item;
     }
-    int[] countArray = new int[max + 1];
+
+
+    int[] countArray = new int[max-min + 1];
+    
 
     for (int i = 0; i < array.Length; i++)
     { //заполняем вспомогательный масив
-        countArray[array[i]]++;
+        countArray[array[i]-min]++;
     }
 
     int k = 0;
@@ -120,7 +126,7 @@ int[] CountingSort(int[] array)
     { //переносим из вспомогательного массива в основной
         while (countArray[i] > 0)
         {
-            array[k] = i;
+            array[k] = i+min;
             k++;
             countArray[i]--;
         }
@@ -130,37 +136,43 @@ int[] CountingSort(int[] array)
 
 //Основная программа
 PrintInfo("Массив целых чисел");
-int[] array = GenArr(1000, 1, 1000); //длина массива , минимальный, максимальный
+int[] array = GenArr(1000, -1000, 1000); //длина массива , минимальный, максимальный
 Print1DArray(array);
 
 
+int [] arrayForSort  = new int[array.Length];
+Array.Copy(array,arrayForSort,array.Length);
+
+
 DateTime time = DateTime.Now; // только после первого подсчета таймера программа считает адекватно
-int[] maxMin = MaxMinSearch(array);
+int[] maxMin = MaxMinSearch(arrayForSort);
 string timeMaxMinSearch = (DateTime.Now - time).ToString();
 PrintInfo(
     $"Максимальное {maxMin[0]} и минимальное {maxMin[1]} число методом перечисления\n----------"
 );
 
 
-
+Array.Copy(array,arrayForSort,array.Length); //копируем в новый массив, чтобы не изменять исходный
 time = DateTime.Now;
-int[] arrayInserSort = InserSort(array);
+int[] arrayInserSort = InserSort(arrayForSort);
 string timeInserSort = (DateTime.Now - time).ToString();
 Print1DArray(arrayInserSort);
 PrintInfo(
     $"Максимальное {arrayInserSort[arrayInserSort.Length - 1]} и минимальное {arrayInserSort[0]} число после сортировки методом вставки\n----------"
 );
 
+Array.Copy(array,arrayForSort,array.Length);
 time = DateTime.Now;
-int[] arrayCountingSort = CountingSort(array);
+int[] arrayCountingSort = CountingSort(arrayForSort);
 string timeCountingSort = (DateTime.Now - time).ToString();
 Print1DArray(arrayCountingSort);
 PrintInfo(
     $"Максимальное {arrayCountingSort[arrayCountingSort.Length - 1]} и минимальное {arrayCountingSort[0]} число после сортировки методом подсчета\n----------"
 );
 
+Array.Copy(array,arrayForSort,array.Length);
 time = DateTime.Now;
-int[] arrayBubleSort = BubleSort(array);
+int[] arrayBubleSort = BubleSort(arrayForSort);
 string timeBubleSort = (DateTime.Now - time).ToString();
 Print1DArray(arrayBubleSort);
 PrintInfo(
@@ -171,5 +183,6 @@ PrintInfo($"Время выполнения прогона min-max {timeMaxMinSe
 PrintInfo($"Время выполнения сортировки методом вставки {timeInserSort} \n----------");
 PrintInfo($"Время выполнения сортировки методом подсчета {timeCountingSort} \n----------");
 PrintInfo($"Время выполнения сортировки методом пузырька {timeBubleSort} \n----------");
+
 
 
