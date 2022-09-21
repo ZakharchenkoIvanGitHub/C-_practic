@@ -137,7 +137,7 @@ double[] AverageDioganal(int[,] array2D)
 }
 
 // Печатает одномерный массив в цвете по последней строке массива.
-void Print1DArray(string message, double[] array, int row)
+void Print1DArrayColor(string message, double[] array, int row)
 {
     int i;
     Console.Write(message);
@@ -158,5 +158,5 @@ int column = ReadData("Введите количество столбцов ");
 int[,] arr2D = Gen2DArr(row, column, 10, 100);
 Print2DArrayDigonalColor(arr2D);
 
-Print1DArray("Среднее арифметическое по столбцам: ", AverageСolumn(arr2D), row);
-Print1DArray("Среднее арифметическое по диоганали: ", AverageDioganal(arr2D), row);
+Print1DArrayColor("Среднее арифметическое по столбцам: ", AverageСolumn(arr2D), row);
+Print1DArrayColor("Среднее арифметическое по диогонали: ", AverageDioganal(arr2D), row);

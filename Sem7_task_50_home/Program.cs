@@ -12,15 +12,6 @@ int ReadData(string greeting = "Введите данные")
     return (number);
 }
 
-// Выдает число Фибоначи
-double Fibonachi(int n)
-{
-    if (n == 1 || n == 2)
-        return 1;
-    else
-        return Fibonachi(n - 1) + Fibonachi(n - 2);
-}
-
 // Генерация 2D массива числами фибоначи.
 double[,] Gen2DArrFibonaci(int countRow, int countColumn)
 {
@@ -42,7 +33,7 @@ double[,] Gen2DArrFibonaci(int countRow, int countColumn)
     return arr2D;
 }
 
-//Получаем шириyу столбцов
+// Получаем ширину столбцов.
 int[] GetСolumnWidth(double[,] array)
 {
     int[] arrayLen = new int[array.GetLength(0)];
@@ -53,7 +44,7 @@ int[] GetСolumnWidth(double[,] array)
     return arrayLen;
 }
 
-//Возвращает строку с заданным количеством символов
+// Возвращает строку с заданным количеством символов.
 string GetMultiChar(char symbol, int multiplier)
 {
     return new(symbol, multiplier);
@@ -120,4 +111,4 @@ if (PrintElement(FindElement(x, y, arrayFibonachi)))
 {
     PrintMatrixFibonachi(arrayFibonachi, x, y);
 }
-;
+
