@@ -36,13 +36,13 @@ int[,] Gen2DArr(int countRow, int countColumn, int arrMin, int arrMax)
 }
 
 // Печатает двумерный массив в цвете по диоганали.
-void Print2DArrayDigonalColor(int[,] array)
+void Print2DArrayDigonalColor(int[,] array, int bias = 0)
 {
     for (int i = 0; i < array.GetLength(0); i++)
     {
         for (int j = 0; j < array.GetLength(1); j++)
         {
-            Console.ForegroundColor = GetColorСell(i, j);
+            Console.ForegroundColor = GetColorСell(i + bias, j);
             Console.Write(array[i, j] + " ");
             Console.ResetColor();
         }
@@ -160,3 +160,18 @@ Print2DArrayDigonalColor(arr2D);
 
 Print1DArrayColor("Среднее арифметическое по столбцам: ", AverageСolumn(arr2D), row);
 Print1DArrayColor("Среднее арифметическое по диогонали: ", AverageDioganal(arr2D), row);
+
+/* DateTime time = DateTime.Now; // Радуга диоганальная
+int n = 0;
+Console.Clear();
+while (true)
+{
+    if ((DateTime.Now - time) > TimeSpan.FromMilliseconds(100))
+    {
+        Console.SetCursorPosition(0, 0);
+        arr2D = Gen2DArr(row, column, 10, 100);
+        Print2DArrayDigonalColor(arr2D, n);
+        n++;
+        time = DateTime.Now;
+    }
+} */
