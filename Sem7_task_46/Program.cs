@@ -39,7 +39,7 @@ int[,] Gen2DArr(int countRow, int countColumn, int arrMin, int arrMax)
 }
 
 //Печатает двумерный массив
-void Print2DArray(int[,] array)
+/* void Print2DArray(int[,] array)
 {
     for (int i = 0; i < array.GetLength(0); i++)
     {
@@ -49,7 +49,7 @@ void Print2DArray(int[,] array)
         }
         Console.WriteLine();
     }
-}
+} */
 
 ConsoleColor[] col = new ConsoleColor[]{ConsoleColor.Black,ConsoleColor.Blue,ConsoleColor.Cyan,
                                         ConsoleColor.DarkBlue,ConsoleColor.DarkCyan,ConsoleColor.DarkGray,
