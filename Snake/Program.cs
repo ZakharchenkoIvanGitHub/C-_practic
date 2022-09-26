@@ -20,7 +20,7 @@ int[,] PrintBox(int[,] frame, List<(int, int)> snake, (int, int) positionBug)
         for (int j = 0; j < frame.GetLength(1); j++)
         {
             if (
-                newFrame[i, j] != frame[i, j] /* && newFrame[i, j] != 0 */
+                newFrame[i, j] != frame[i, j] 
             )
             {
                 Console.SetCursorPosition(i * 2, j);
@@ -45,7 +45,6 @@ int[,] AddSnake(int[,] frame, List<(int, int)> snake)
     {
         frame[item.Item2, item.Item1] = 2;
     }
-
     return frame;
 }
 
@@ -160,7 +159,7 @@ bool CatchBug(List<(int, int)> snake, (int, int) positionBug)
 bool Collision(int boxSizeX, int boxSizeY, List<(int, int)> snake)
 {
     if (
-        snake.LastIndexOf(snake[0]) > 0
+        snake.IndexOf(snake[snake.Count-1]) < snake.Count-1
         || snake[snake.Count - 1].Item1 <= 0
         || snake[snake.Count - 1].Item2 <= 0
         || snake[snake.Count - 1].Item1 >= boxSizeX - 1
