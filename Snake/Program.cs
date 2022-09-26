@@ -8,13 +8,12 @@ int ReadData(string greeting = "Введите данные")
 }
 
 //Вывод кадра
-int[,] PrintBox(int[,] frame, List<(int, int)> snake,(int, int) positionBug)
+int[,] PrintBox(int[,] frame, List<(int, int)> snake, (int, int) positionBug)
 {
     int[,] newFrame = new int[frame.GetLength(0), frame.GetLength(1)];
     newFrame = AddBorder(newFrame);
     newFrame = AddSnake(newFrame, snake);
     newFrame[positionBug.Item2, positionBug.Item1] = 3;
-
 
     for (int i = 0; i < frame.GetLength(0); i++)
     {
@@ -29,11 +28,10 @@ int[,] PrintBox(int[,] frame, List<(int, int)> snake,(int, int) positionBug)
                     Console.Write("*");
                 if (newFrame[i, j] == 2)
                     Console.Write("0");
-                    if (newFrame[i, j] == 3)
+                if (newFrame[i, j] == 3)
                     Console.Write("Ж");
                 if (newFrame[i, j] == 0)
                     Console.Write(" ");
-                    
             }
         }
     }
@@ -55,9 +53,9 @@ int[,] AddSnake(int[,] frame, List<(int, int)> snake)
 int[,] AddBorder(int[,] frame)
 {
     int startCol = 0;
-    int finishCol = frame.GetLength(0) - 1;
+    int finishCol = frame.GetLength(1) - 1;
     int startRow = 0;
-    int finishRow = frame.GetLength(1) - 1;
+    int finishRow = frame.GetLength(0) - 1;
     int symbol = 1;
 
     for (int i = startCol; i <= finishCol; i++)
@@ -88,19 +86,6 @@ int[,] AddBorder(int[,] frame)
 }
 ;
 
-//Печатает двумерный массив
-void Print2DArray(int[,] array)
-{
-    for (int i = 0; i < array.GetLength(0); i++)
-    {
-        for (int j = 0; j < array.GetLength(1); j++)
-        {
-            Console.Write(array[i, j] + " ");
-        }
-        Console.WriteLine();
-    }
-}
-
 //Определяет нажатую клавишу
 int DefineKey(ConsoleKeyInfo input)
 {
@@ -126,7 +111,7 @@ int DefineKey(ConsoleKeyInfo input)
 }
 
 //двигать змейку
-List<(int, int)> MoveSnake(List<(int, int)> snake, int direction,bool boostSnake)
+List<(int, int)> MoveSnake(List<(int, int)> snake, int direction, bool boostSnake)
 {
     (int, int) newPosition = (0, 0);
     switch (direction)
@@ -145,8 +130,9 @@ List<(int, int)> MoveSnake(List<(int, int)> snake, int direction,bool boostSnake
             break;
     }
     snake.Add(newPosition);
-    if (boostSnake){} else
-    snake.RemoveAt(0);
+    if (boostSnake) { }
+    else
+        snake.RemoveAt(0);
     return snake;
 }
 
@@ -164,26 +150,86 @@ List<(int, int)> MoveSnake(List<(int, int)> snake, int direction,bool boostSnake
 }
 
 //Поймать жука
-bool CatchBug(List<(int, int)> snake,(int, int) positionBug){
+bool CatchBug(List<(int, int)> snake, (int, int) positionBug)
+{
     return snake.Contains(positionBug);
-};
+}
+;
 
 //Столкновение
-bool collision (){
+bool Collision(int boxSizeX, int boxSizeY, List<(int, int)> snake)
+{
+    if (
+        snake.LastIndexOf(snake[0]) > 0
+        || snake[snake.Count - 1].Item1 <= 0
+        || snake[snake.Count - 1].Item2 <= 0
+        || snake[snake.Count - 1].Item1 >= boxSizeX - 1
+        || snake[snake.Count - 1].Item2 >= boxSizeY - 1
+    )
+    {
+        return true;
+    }
+    return false;
+}
 
-    
+//Речатает звезду в указаном месте
+void PrintStar(int x, int y)
+{
+    Console.SetCursorPosition(x, y);
+    Console.Write("*");
+}
+
+//Гейм овер
+void GameOver(int[,] arr2D)
+{
+    int startCol = 1;
+    int finishCol = arr2D.GetLength(1) - 2;
+    int startRow = 1;
+    int finishRow = arr2D.GetLength(0) - 2;
+    int delay = 10;
+
+    while (startCol <= finishCol && startRow <= finishRow)
+    {
+        for (int i = startCol; i <= finishCol; i++)
+        {
+            Thread.Sleep(delay);
+            PrintStar(startRow* 2, i);
+        }
+        startRow++;
+
+        for (int i = startRow; i <= finishRow; i++)
+        {
+            Thread.Sleep(delay);
+            PrintStar(i* 2, finishCol);
+        }
+        finishCol--;
+
+        for (int i = finishCol; i >= startCol; i--)
+        {
+            Thread.Sleep(delay);
+            PrintStar(finishRow* 2, i);
+        }
+        finishRow--;
+
+        for (int i = finishRow; i >= startRow; i--)
+        {
+            Thread.Sleep(delay);
+            PrintStar(i* 2, startCol);
+        }
+        startCol++;
+    }
 }
 
 // Основная программа
-int boxSizeX = 10; // ReadData("Введите количество строк матрицы");
-int boxSizeY = 10; //ReadData("Введите количество столбцов матрицы");
+int boxSizeX =  ReadData("Введите количество столбцов матрицы");
+int boxSizeY =   ReadData("Введите количество строк матрицы");
 if (boxSizeX < 7)
     boxSizeX = 7;
 if (boxSizeY < 7)
     boxSizeY = 7;
 Console.Clear();
-int[,] frame = new int[boxSizeX, boxSizeY];
-List<(int, int)> snake = new List<(int, int)> { (2, 2), (2, 3), (2, 4) };
+int[,] frame = new int[boxSizeY, boxSizeX];
+List<(int, int)> snake = new List<(int, int)> { (2, 2), (3, 2), (4, 2) };
 bool run = true;
 int direction = 4; //направление 4-вниз,3-вверх, 1-влево, 2-вправо
 DateTime time = DateTime.Now;
@@ -209,24 +255,27 @@ while (run) //основной цикл
     }
 
     //Оновление экрана по таймеру
-    if ((DateTime.Now - time) > TimeSpan.FromMilliseconds(400))
+    if ((DateTime.Now - time) > TimeSpan.FromMilliseconds(250))
     {
         if (noBug)
         {
             positionBug = AddBug(boxSizeX, boxSizeY, snake);
             noBug = false;
         }
-        snake = MoveSnake(snake, direction,boostSnake);
-        boostSnake=false;
-        frame = PrintBox(frame, snake,positionBug);
-        if (CatchBug(snake,positionBug)){
+        snake = MoveSnake(snake, direction, boostSnake);
+        boostSnake = false;
+        frame = PrintBox(frame, snake, positionBug);
+        if (CatchBug(snake, positionBug))
+        {
             noBug = true;
-            boostSnake=true;
-        };
-
-
+            boostSnake = true;
+        }
+        if (Collision(boxSizeX, boxSizeY, snake))
+        {
+            GameOver(frame);
+            run = false;
+        }
         time = DateTime.Now;
         Console.SetCursorPosition(0, 0);
-
     }
 }
