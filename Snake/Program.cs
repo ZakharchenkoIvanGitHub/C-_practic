@@ -8,11 +8,13 @@ int ReadData(string greeting = "Введите данные")
 }
 
 //Вывод кадра
-int[,] PrintBox(int[,] frame, List<(int, int)> snake)
+int[,] PrintBox(int[,] frame, List<(int, int)> snake,(int, int) positionBug)
 {
     int[,] newFrame = new int[frame.GetLength(0), frame.GetLength(1)];
     newFrame = AddBorder(newFrame);
     newFrame = AddSnake(newFrame, snake);
+    newFrame[positionBug.Item2, positionBug.Item1] = 3;
+
 
     for (int i = 0; i < frame.GetLength(0); i++)
     {
@@ -27,8 +29,11 @@ int[,] PrintBox(int[,] frame, List<(int, int)> snake)
                     Console.Write("*");
                 if (newFrame[i, j] == 2)
                     Console.Write("0");
+                    if (newFrame[i, j] == 3)
+                    Console.Write("Ж");
                 if (newFrame[i, j] == 0)
                     Console.Write(" ");
+                    
             }
         }
     }
@@ -121,10 +126,9 @@ int DefineKey(ConsoleKeyInfo input)
 }
 
 //двигать змейку
-List<(int, int)> MoveSnake(List<(int, int)> snake, int direction)
+List<(int, int)> MoveSnake(List<(int, int)> snake, int direction,bool boostSnake)
 {
     (int, int) newPosition = (0, 0);
-    //Console.WriteLine("w");
     switch (direction)
     {
         case 1:
@@ -141,9 +145,33 @@ List<(int, int)> MoveSnake(List<(int, int)> snake, int direction)
             break;
     }
     snake.Add(newPosition);
-   //  Console.WriteLine(newPosition);
+    if (boostSnake){} else
     snake.RemoveAt(0);
     return snake;
+}
+
+//Добавляет жука
+(int, int) AddBug(int boxSizeX, int boxSizeY, List<(int, int)> snake)
+{
+    (int, int) positionBug = (0, 0);
+
+    Random rnd = new Random();
+    do
+    {
+        positionBug = (rnd.Next(1, boxSizeX - 1), rnd.Next(1, boxSizeY - 1));
+    } while (snake.Contains(positionBug));
+    return positionBug;
+}
+
+//Поймать жука
+bool CatchBug(List<(int, int)> snake,(int, int) positionBug){
+    return snake.Contains(positionBug);
+};
+
+//Столкновение
+bool collision (){
+
+    
 }
 
 // Основная программа
@@ -159,6 +187,9 @@ List<(int, int)> snake = new List<(int, int)> { (2, 2), (2, 3), (2, 4) };
 bool run = true;
 int direction = 4; //направление 4-вниз,3-вверх, 1-влево, 2-вправо
 DateTime time = DateTime.Now;
+bool noBug = true;
+(int, int) positionBug = (0, 0);
+bool boostSnake = false;
 
 while (run) //основной цикл
 {
@@ -177,12 +208,25 @@ while (run) //основной цикл
         }
     }
 
+    //Оновление экрана по таймеру
     if ((DateTime.Now - time) > TimeSpan.FromMilliseconds(400))
     {
-        snake = MoveSnake(snake, direction);
-        frame = PrintBox(frame, snake);
+        if (noBug)
+        {
+            positionBug = AddBug(boxSizeX, boxSizeY, snake);
+            noBug = false;
+        }
+        snake = MoveSnake(snake, direction,boostSnake);
+        boostSnake=false;
+        frame = PrintBox(frame, snake,positionBug);
+        if (CatchBug(snake,positionBug)){
+            noBug = true;
+            boostSnake=true;
+        };
+
+
         time = DateTime.Now;
         Console.SetCursorPosition(0, 0);
-        // Console.WriteLine(snake.ToString());
+
     }
 }
